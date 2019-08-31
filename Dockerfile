@@ -26,6 +26,8 @@ ENV JAVA_HOME="/root/.sdkman/candidates/java/current"
 RUN mkdir /root/tools
 RUN wget https://download.jboss.org/wildfly/17.0.1.Final/wildfly-17.0.1.Final.tar.gz -P /root/tools
 RUN cd /root/tools && tar -xzvf wildfly-17.0.1.Final.tar.gz
+RUN cd /root/tools && rm wildfly-17.0.1.Final.tar.gz
+
 RUN sed -i '/inet-address/c\<any-address/>' /root/tools/wildfly-17.0.1.Final/standalone/configuration/standalone.xml
 
 ENV PATH="/root/tools/wildfly-17.0.1.Final/bin:${PATH}"
@@ -33,6 +35,12 @@ RUN /root/tools/wildfly-17.0.1.Final/bin/add-user.sh admin admin -e
 RUN mkdir /root/repository
 RUN cd /root/repository && git clone --depth 1 https://github.com/nadeva/javaee-bookstore.git
 
-RUN cd /root/repository/javaee-bookstore && ./mvnw clean package
-RUN cd /root/repository/javaee-bookstore && ./mvnw clean
+#RUN cd /root/repository/javaee-bookstore && ./mvnw clean package
+#RUN cd /root/repository/javaee-bookstore && ./mvnw clean
+
+RUN wget http://downloads.jboss.org/forge/releases/3.9.4.Final/forge-distribution-3.9.4.Final-offline.zip -P /root/tools
+RUN cd /root/tools && unzip forge-distribution-3.9.4.Final-offline.zip
+RUN cd /root/tools && rm forge-distribution-3.9.4.Final-offline.zip
+ENV PATH="/root/tools/forge-distribution-3.9.4.Final/bin:${PATH}"
+
 CMD /bin/bash
