@@ -1,0 +1,3 @@
+Main-Class: MaClasseAvecDependance
+Class-Path: commons-lang-2.6.jar
+
