@@ -43,4 +43,13 @@ RUN cd /root/tools && unzip forge-distribution-3.9.4.Final-offline.zip
 RUN cd /root/tools && rm forge-distribution-3.9.4.Final-offline.zip
 ENV PATH="/root/tools/forge-distribution-3.9.4.Final/bin:${PATH}"
 
+RUN apt-get install -y build-essential libz-dev
+RUN wget https://github.com/oracle/graal/releases/download/vm-19.1.1/graalvm-ce-linux-amd64-19.1.1.tar.gz -P /root/tools
+RUN cd /root/tools && tar -xzvf graalvm-ce-linux-amd64-19.1.1.tar.gz
+RUN cd /root/tools && rm graalvm-ce-linux-amd64-19.1.1.tar.gz
+ENV GRAALVM_HOME="/root/tools/graalvm-ce-linux-amd64-19.1.1"
+ENV PATH="/root/tools/graalvm-ce-linux-amd64-19.1.1/bin:${PATH}"
+RUN /root/tools/graalvm-ce-linux-amd64-19.1.1/bin/gu install native-image
+
+
 CMD /bin/bash
